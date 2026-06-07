@@ -56,7 +56,7 @@
     }
     
     .title-group { 
-      text-align: left; /* 改回靠左對齊 */
+      text-align: left; /* 靠左對齊 */
       display: flex; 
       flex-direction: column; 
       gap: 4px; /* 主標題與帳號的上下間距 */
@@ -64,7 +64,7 @@
 
     .main-title { 
       font-family: 'Playfair Display', serif; 
-      color: #ffcad1; /* 改為更淡、更輕柔的櫻花粉色 */ 
+      color: #ffcad1; /* 更淡、更輕柔的櫻花粉色 */ 
       margin: 0; 
       display: flex; 
       align-items: baseline; 
@@ -75,7 +75,7 @@
     }
 
     .kyu-txt { 
-      font-size: 2.2rem; /* 稍微縮小一點點，確保手機畫面同一列塞得下且不擠到右邊按鈕 */
+      font-size: 2.2rem; /* 稍微縮小確保手機畫面同一列塞得下 */
       font-style: italic; 
       font-weight: 700; 
       letter-spacing: 0.5px; 
@@ -94,7 +94,7 @@
 
     .sub-credits { 
       font-size: 0.75rem; 
-      color: #fff0f2; /* Threads 帳號用幾乎是白色的極淡粉，增加層次感 */ 
+      color: #fff0f2; /* Threads 帳號用幾乎是白色的極淡粉 */ 
       font-family: 'Montserrat', sans-serif; 
       opacity: 0.9; 
       font-weight: 500;
@@ -134,7 +134,9 @@
     .tab-nav::-webkit-scrollbar { display: none; }
     
     .tab-btn { flex: 0 0 auto; padding: 8px 12px; background: transparent; border: none; border-radius: 12px; font-size: 0.9em; color: #1a1a1a; cursor: pointer; transition: 0.3s; font-weight: 600; white-space: nowrap; }
-    .tab-btn.active { background: rgba(255,255,255,0.9); color: var(--kyu-dark); font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    
+    /* 第一排主選單 選取時：淡粉色背景 + 深紅色字體 */
+    .tab-btn.active { background: #fae6e8; color: var(--kyu-heart); font-weight: bold; box-shadow: 0 2px 8px rgba(128, 0, 32, 0.2); }
     
     .tab-btn[onclick*="wish"] { color: var(--kyu-heart); }
     .tab-btn[onclick*="wish"].active { background: #fae6e8; box-shadow: 0 2px 8px rgba(128, 0, 32, 0.2); color: var(--kyu-heart); }
@@ -143,7 +145,9 @@
     .sub-nav-container::-webkit-scrollbar { display: none; }
     .sub-nav { display: inline-flex; gap: 8px; padding: 2px 5px; }
     .sub-btn { padding: 8px 18px; background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; font-size: 0.85em; color: #1a1a1a; cursor: pointer; font-weight: 600; }
-    .sub-btn.active { background: var(--kyu-dark); color: #fff; border-color: var(--kyu-dark); }
+    
+    /* 第二排子選單 選取時：深紅色背景 + 白色字體 */
+    .sub-btn.active { background: var(--kyu-heart); color: #fff; border-color: var(--kyu-heart); }
     
     .album-header { font-family: 'Montserrat', sans-serif; font-size: 1.1em; font-weight: 700; text-transform: uppercase; color: var(--kyu-dark); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(13, 27, 42, 0.2); padding-bottom: 8px; letter-spacing: 2px; }
     .section-title { font-size: 1em; color: var(--kyu-dark); margin: 15px 0 10px 0; font-weight: bold; display: flex; align-items: center; gap: 6px; }
