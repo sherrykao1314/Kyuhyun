@@ -54,40 +54,51 @@
     .header-top { 
       display: flex; justify-content: space-between; align-items: center; 
     }
+    
     .title-group { 
-      flex: 1; /* 佔滿左側剩餘空間 */
+      text-align: left; /* 改回靠左對齊 */
       display: flex; 
       flex-direction: column; 
-      align-items: center; /* 讓整體文字往中間集中 */
-      text-align: center;
-      gap: 2px;
-      margin-right: 10px; /* 避免跟右邊的按鈕太貼 */
+      gap: 4px; /* 主標題與帳號的上下間距 */
     }
+
     .main-title { 
       font-family: 'Playfair Display', serif; 
-      color: #ff9fa8; /* 改為淡紅色 */ 
+      color: #ffcad1; /* 改為更淡、更輕柔的櫻花粉色 */ 
       margin: 0; 
       display: flex; 
       align-items: baseline; 
-      justify-content: center; /* 讓 Kyuhyun 和 Album & Card 兩行字對齊中央 */
-      gap: 8px; 
-      flex-wrap: wrap;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      justify-content: flex-start; /* 靠左排列 */
+      gap: 8px; /* 兩段字的左右間距 */
+      flex-wrap: nowrap; /* 強制待在同一列，不換行 */
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
+
     .kyu-txt { 
-      font-size: 2.4rem; font-style: italic; font-weight: 700; letter-spacing: 1px; line-height: 1;
+      font-size: 2.2rem; /* 稍微縮小一點點，確保手機畫面同一列塞得下且不擠到右邊按鈕 */
+      font-style: italic; 
+      font-weight: 700; 
+      letter-spacing: 0.5px; 
+      line-height: 1;
     }
+    
     .album-txt { 
-      font-family: 'Montserrat', sans-serif; font-size: 0.95rem; text-transform: uppercase; 
-      letter-spacing: 2px; font-weight: 600; opacity: 0.95; line-height: 1;
+      font-family: 'Montserrat', sans-serif; 
+      font-size: 0.9rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1.5px; 
+      font-weight: 600; 
+      opacity: 0.95; 
+      line-height: 1;
     }
+
     .sub-credits { 
       font-size: 0.75rem; 
-      color: #ffccd2; /* 副標題用更淡一點的粉紅，搭配主標題 */ 
+      color: #fff0f2; /* Threads 帳號用幾乎是白色的極淡粉，增加層次感 */ 
       font-family: 'Montserrat', sans-serif; 
       opacity: 0.9; 
       font-weight: 500;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3); 
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4); 
       letter-spacing: 0.5px;
     }
 
