@@ -29,6 +29,7 @@
       --kyu-light: #e0e1dd;      /* 鉑金/米白色 */
     }
     
+    /* 恢復原本內部視窗滾動的視窗鎖死設定 */
     html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; }
     
     .bg-layer { 
@@ -39,14 +40,22 @@
       box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.15); 
     }
     
-    .scroll-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; padding: 5px 15px 90px 15px; box-sizing: border-box; }
+    /* 移除 flex 改用 block 布局，強制啟用滾動並加大底部留白 */
+    .scroll-wrapper { 
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+      overflow-y: scroll; 
+      -webkit-overflow-scrolling: touch; 
+      padding: 5px 15px 140px 15px; 
+      box-sizing: border-box; 
+    }
     
     header { 
       width: 100%; max-width: 800px; 
+      margin: 0 auto 12px auto; /* 改用左右 auto 置中，避開 iOS 滾動 bug */
       background: var(--glass); padding: 12px 16px; 
       border-radius: 18px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
       border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 8px 32px rgba(0,0,0,0.25); 
-      box-sizing: border-box; margin-bottom: 12px; 
+      box-sizing: border-box; 
       display: flex; flex-direction: column; gap: 10px;
     }
     
@@ -63,14 +72,14 @@
 
     .main-title { 
       font-family: 'Playfair Display', serif; 
-      color: var(--kyu-heart); /* 改為深酒紅色 */ 
+      color: var(--kyu-heart); 
       margin: 0; 
       display: flex; 
       align-items: baseline; 
       justify-content: flex-start; 
       gap: 8px; 
       flex-wrap: nowrap; 
-      text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6); /* 白色微光暈 */
+      text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6); 
     }
 
     .kyu-txt { 
@@ -127,14 +136,14 @@
       margin: 0; box-sizing: border-box; word-break: break-word; display: flex; align-items: center;
     }
 
-    .app-container { width: 100%; max-width: 800px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 8px 32px rgba(0,0,0,0.25); padding: 12px 10px; box-sizing: border-box; }
+    /* 改用 margin 左右 auto 置中 */
+    .app-container { width: 100%; max-width: 800px; margin: 0 auto; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 8px 32px rgba(0,0,0,0.25); padding: 12px 10px; box-sizing: border-box; }
     
     .tab-nav { display: flex; flex-wrap: nowrap; justify-content: flex-start; gap: 6px; background: rgba(255,255,255,0.25); border-radius: 15px; padding: 6px; margin-bottom: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .tab-nav::-webkit-scrollbar { display: none; }
     
     .tab-btn { flex: 0 0 auto; padding: 8px 12px; background: transparent; border: none; border-radius: 12px; font-size: 0.9em; color: #1a1a1a; cursor: pointer; transition: 0.3s; font-weight: 600; white-space: nowrap; }
     
-    /* 第一排主選單 選取時：淡粉色背景 + 深紅色字體 */
     .tab-btn.active { background: #fae6e8; color: var(--kyu-heart); font-weight: bold; box-shadow: 0 2px 8px rgba(128, 0, 32, 0.2); }
     
     .tab-btn[onclick*="wish"] { color: var(--kyu-heart); }
@@ -145,7 +154,6 @@
     .sub-nav { display: inline-flex; gap: 8px; padding: 2px 5px; }
     .sub-btn { padding: 8px 18px; background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; font-size: 0.85em; color: #1a1a1a; cursor: pointer; font-weight: 600; }
     
-    /* 第二排子選單 選取時：深紅色背景 + 白色字體 */
     .sub-btn.active { background: var(--kyu-heart); color: #fff; border-color: var(--kyu-heart); }
     
     .album-header { font-family: 'Montserrat', sans-serif; font-size: 1.1em; font-weight: 700; text-transform: uppercase; color: var(--kyu-dark); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(13, 27, 42, 0.2); padding-bottom: 8px; letter-spacing: 2px; }
@@ -177,7 +185,8 @@
     .no-img-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(13, 27, 42, 0.05); color: var(--kyu-dark); font-size: 0.85em; font-weight: 600; text-align: center; padding: 10px; box-sizing: border-box; border: 1px dashed rgba(13, 27, 42, 0.2); line-height: 1.5; gap: 4px; }
     .empty-msg { text-align: center; color: #1a1a1a; padding: 40px; font-style: italic; font-weight: 600; }
     
-    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.8); padding: 10px 15px 15px 15px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); z-index: 999; padding-bottom: calc(15px + env(safe-area-inset-bottom)); }
+    /* 加入 pointer-events: none; 允許觸控和滑動手勢完全穿透蒐集列 */
+    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.8); padding: 10px 15px 15px 15px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); z-index: 999; padding-bottom: calc(15px + env(safe-area-inset-bottom)); pointer-events: none; }
     .dual-stat-container { display: flex; flex-direction: column; gap: 8px; } 
     
     .stat-row { display: flex; flex-direction: row; align-items: center; gap: 8px; }
@@ -210,7 +219,7 @@
     .msg-info { font-size: 0.8em; color: #555; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 4px; }
     .msg-name { font-weight: bold; color: var(--kyu-dark); }
     .msg-text { font-size: 0.95em; color: #222; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; font-weight: 500;}
-    .msg-form { padding: 15px; background: rgba(255,255,255,0.7); border-top: 1px solid rgba(255,255,255,0.6); display: flex; flex-direction: column; gap: 10px; }
+    .msg-form { padding: 15px; background: rgba(255,255,255,0.7); border-top: 1px solid rgba(255,255,255,0.6); display: flex; flex-direction: column; gap: 10px; pointer-events: auto; /* 留言板內允許點擊 */ }
     .msg-input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px; background: rgba(255,255,255,0.9); font-family: inherit; font-size: 0.9em; font-weight: 500;}
     .msg-input:focus { outline: none; border-color: var(--kyu-dark); box-shadow: 0 0 0 2px rgba(13, 27, 42, 0.1); }
     .msg-textarea { resize: none; height: 60px; }
@@ -423,7 +432,7 @@
       .then(data => {
         if (data.status === 'success') {
           const now = new Date();
-          const timeStr = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+          const timeStr = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}::${String(now.getMinutes()).padStart(2,'0')}`;
           
           globalMessages.unshift({
             name: sendData.name,
