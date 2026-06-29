@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
+  <!-- 記得把這裡的 Icon 換成赫海的圖片 -->
   <link rel="apple-touch-icon" href="Kyu01.jpg?v=2">
   <link rel="icon" sizes="192x192" href="Kyu01.jpg?v=2">
   
@@ -32,7 +33,7 @@
     
     .bg-layer { 
       position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-      background-image: url('Kyu02.jpg?v=2'); 
+      background-image: url('Kyu02.jpg?v=2'); /* 記得換成赫海背景圖 */
       background-size: cover; background-position: center top; 
       z-index: -1; pointer-events: none; 
       box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.15); 
@@ -42,7 +43,7 @@
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
       overflow-y: scroll; 
       -webkit-overflow-scrolling: touch; 
-      padding: 5px 15px 120px 15px; /* 稍微加一點底部留白 */
+      padding: 5px 15px 120px 15px; 
       box-sizing: border-box; 
     }
     
@@ -206,7 +207,7 @@
       transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    /* 統一顏色：專輯=深藍, 小卡=紅色 */
+    /* 統一進度條顏色 */
     .fill-album { background: #0055A4; } 
     .fill-card { background: #FF2A2A; }  
 
@@ -377,10 +378,8 @@
         }
       });
 
-      // 更新右上角總數
       document.getElementById('totalCountText').innerHTML = `${overallAlbums}專 / ${overallCards}卡`;
 
-      // 渲染 6 條進度
       const renderBar = (grp, type) => {
         let tot = totals[grp][type];
         let own = owneds[grp][type];
@@ -535,6 +534,7 @@
       area.appendChild(g);
     }
 
+    // 已經加入修正邏輯的 switchRelease (避免留下空標題)
     function switchRelease(release, event, country) {
       if(event) {
         document.querySelectorAll('.sub-nav .sub-btn').forEach(b => b.classList.remove('active'));
@@ -545,40 +545,67 @@
       const releaseData = allData[country || currentTab][release];
       if(!releaseData) return;
       
+      let hasAnyContentInRelease = false;
+      
       Object.keys(releaseData).forEach(header => {
         const data = releaseData[header];
+        
+        const filterList = (list) => {
+          if (!list) return [];
+          if (currentWhoFilter === 'all') return list;
+          return list.filter(item => item.who === currentWhoFilter);
+        };
+
+        const f_uncat = filterList(data.uncategorized);
+        const f_album = filterList(data.albums);
+        const f_photo = filterList(data.photocards);
+        const f_spec = filterList(data.specialCards);
+        const f_fsign = filterList(data.fansignCards);
+        const f_won = filterList(data.wonFansignCards);
+        const f_lucky = filterList(data.luckyCards);
+        const f_entry = filterList(data.entryCards);
+        const f_rand = filterList(data.randomCards);
+        const f_bonus = filterList(data.bonusCards);
+        const f_other = filterList(data.otherCards);
+
+        const totalItemsInHeader = f_uncat.length + f_album.length + f_photo.length + f_spec.length + f_fsign.length + f_won.length + f_lucky.length + f_entry.length + f_rand.length + f_bonus.length + f_other.length;
+
+        if (totalItemsInHeader === 0) return;
+
+        hasAnyContentInRelease = true;
+
         if (header !== "") {
           const headerDiv = document.createElement('div');
-          headerDiv.className = 'album-header'; headerDiv.innerText = header;
+          headerDiv.className = 'album-header'; 
+          headerDiv.innerText = header;
           area.appendChild(headerDiv);
         }
         
         const renderGrid = (title, list) => {
-          if (!list) return;
-          let filteredList = list;
-          if (currentWhoFilter !== 'all') {
-            filteredList = list.filter(item => item.who === currentWhoFilter);
-          }
-          if (filteredList.length > 0) {
+          if (list.length > 0) {
             if (title) area.insertAdjacentHTML('beforeend', `<div class="section-title">${title}</div>`);
             const g = document.createElement('div'); g.className = 'grid';
-            filteredList.forEach(item => g.appendChild(createCard(item)));
+            list.forEach(item => g.appendChild(createCard(item)));
             area.appendChild(g);
           }
         };
         
-        renderGrid(null, data.uncategorized);
-        renderGrid("💿 專輯版本", data.albums);
-        renderGrid("🃏 專輯小卡", data.photocards);
-        renderGrid("🎁 特典小卡", data.specialCards);
-        renderGrid("✍️ 簽售小卡", data.fansignCards);
-        renderGrid("🎉 中簽卡", data.wonFansignCards);
-        renderGrid("🍀 幸運卡", data.luckyCards);
-        renderGrid("🎟️ 入場卡", data.entryCards); 
-        renderGrid("🎲 隨機卡", data.randomCards);
-        renderGrid("🛍️ 滿額卡", data.bonusCards);
-        renderGrid("📌 其他小卡", data.otherCards);
+        renderGrid(null, f_uncat);
+        renderGrid("💿 專輯版本", f_album);
+        renderGrid("🃏 專輯小卡", f_photo);
+        renderGrid("🎁 特典小卡", f_spec);
+        renderGrid("✍️ 簽售小卡", f_fsign);
+        renderGrid("🎉 中簽卡", f_won);
+        renderGrid("🍀 幸運卡", f_lucky);
+        renderGrid("🎟️ 入場卡", f_entry); 
+        renderGrid("🎲 隨機卡", f_rand);
+        renderGrid("🛍️ 滿額卡", f_bonus);
+        renderGrid("📌 其他小卡", f_other);
       });
+
+      if (!hasAnyContentInRelease) {
+        area.innerHTML = `<div class="empty-msg">這個分類下目前沒有「${currentWhoFilter}」的資料喔！</div>`;
+      }
     }
 
     function createCard(item) {
