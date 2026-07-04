@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  <!-- 記得把這裡的 Icon 換成赫海的圖片 -->
   <link rel="apple-touch-icon" href="Kyu01.jpg?v=2">
   <link rel="icon" sizes="192x192" href="Kyu01.jpg?v=2">
   
@@ -12,7 +11,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   
-  <title>D&E Album & Card</title>
+  <title>Kyuhyun Album & Card</title>
   
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
@@ -21,108 +20,150 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Montserrat:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <style>
+    /* --- 圭賢專屬色系 (星空藍 x 勃根地酒紅 x 鉑金白) --- */
     :root { 
-      --kyu-muted: #778da9;      
-      --kyu-dark: #0d1b2a;       
-      --glass: rgba(255, 255, 255, 0.35); 
-      --kyu-heart: #0055A4;      
-      --kyu-light: #e0e1dd;      
+      --kyu-muted: #778da9;      /* 柔和的灰藍色 */
+      --kyu-dark: #0d1b2a;       /* 抒情深藍/星空藍 */
+      --glass: rgba(255, 255, 255, 0.35); /* 稍微提升磨砂玻璃不透明度增加質感 */
+      --kyu-heart: #800020;      /* 勃根地酒紅 (代表圭賢的紅酒愛好) */
+      --kyu-light: #e0e1dd;      /* 鉑金/米白色 */
     }
     
+    /* 恢復原本內部視窗滾動的視窗鎖死設定 */
     html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; }
     
     .bg-layer { 
       position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-      background-image: url('Kyu02.jpg?v=2'); /* 記得換成赫海背景圖 */
+      background-image: url('Kyu02.jpg?v=2'); 
       background-size: cover; background-position: center top; 
       z-index: -1; pointer-events: none; 
       box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.15); 
     }
     
+    /* 移除 flex 改用 block 布局，強制啟用滾動並加大底部留白 */
     .scroll-wrapper { 
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
       overflow-y: scroll; 
       -webkit-overflow-scrolling: touch; 
-      padding: 5px 15px 120px 15px; 
+      padding: 5px 15px 140px 15px; 
       box-sizing: border-box; 
     }
     
     header { 
       width: 100%; max-width: 800px; 
-      margin: 0 auto 12px auto; 
+      margin: 0 auto 12px auto; /* 改用左右 auto 置中，避開 iOS 滾動 bug */
       background: var(--glass); padding: 12px 16px; 
       border-radius: 18px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
       border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 8px 32px rgba(0,0,0,0.25); 
       box-sizing: border-box; 
-      display: flex; flex-direction: column; gap: 12px;
+      display: flex; flex-direction: column; gap: 10px;
     }
     
-    .header-top { display: flex; justify-content: space-between; align-items: center; }
-    .title-group { text-align: left; display: flex; flex-direction: column; gap: 4px; }
-    .main-title { font-family: 'Playfair Display', serif; color: var(--kyu-dark); margin: 0; display: flex; align-items: baseline; justify-content: flex-start; gap: 8px; flex-wrap: nowrap; text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6); }
-    .kyu-txt { font-size: 2.2rem; font-style: italic; font-weight: 700; letter-spacing: 0.5px; line-height: 1; }
-    .album-txt { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; opacity: 0.95; line-height: 1; }
-    .sub-credits { font-size: 0.75rem; color: #fff0f2; font-family: 'Montserrat', sans-serif; opacity: 0.9; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.4); letter-spacing: 0.5px; }
-
-    .total-stat-box {
-      background: rgba(255,255,255,0.7);
-      border: 1px solid rgba(255,255,255,0.8);
-      border-radius: 12px;
-      padding: 6px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    .header-top { 
+      display: flex; justify-content: space-between; align-items: center; 
     }
-    .total-stat-box .stat-title { font-size: 9px; font-weight: 700; color: #666; margin-bottom: 2px; }
-    .total-stat-box .stat-num { font-size: 11px; font-weight: 800; color: var(--kyu-dark); letter-spacing: 0.5px;}
-
-    .segmented-control {
-      display: flex;
-      background: rgba(13, 27, 42, 0.1);
-      border-radius: 12px;
-      padding: 3px;
-      width: 100%;
-      box-sizing: border-box;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .seg-btn {
-      flex: 1;
-      padding: 8px 0;
-      background: transparent;
-      border: none;
-      border-radius: 9px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #444;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-align: center;
-    }
-    .seg-btn.active {
-      background: #ffffff;
-      color: var(--kyu-dark);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    
+    .title-group { 
+      text-align: left; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 4px; 
     }
 
-    .notice-board { padding: 8px 10px; background: rgba(255, 255, 255, 0.6); border-radius: 12px; font-size: 11px; color: var(--kyu-dark); font-weight: 600; border: 1px dashed rgba(13, 27, 42, 0.4); text-align: left; line-height: 1.4; margin: 0; box-sizing: border-box; word-break: break-word; display: none; align-items: center; }
+    .main-title { 
+      font-family: 'Playfair Display', serif; 
+      color: var(--kyu-heart); 
+      margin: 0; 
+      display: flex; 
+      align-items: baseline; 
+      justify-content: flex-start; 
+      gap: 8px; 
+      flex-wrap: nowrap; 
+      text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6); 
+    }
 
+    .kyu-txt { 
+      font-size: 2.2rem; 
+      font-style: italic; 
+      font-weight: 700; 
+      letter-spacing: 0.5px; 
+      line-height: 1;
+    }
+    
+    .album-txt { 
+      font-family: 'Montserrat', sans-serif; 
+      font-size: 0.9rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1.5px; 
+      font-weight: 600; 
+      opacity: 0.95; 
+      line-height: 1;
+    }
+
+    .sub-credits { 
+      font-size: 0.75rem; 
+      color: #fff0f2; 
+      font-family: 'Montserrat', sans-serif; 
+      opacity: 0.9; 
+      font-weight: 500;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4); 
+      letter-spacing: 0.5px;
+    }
+
+    .draw-btn { 
+      background: rgba(255,255,255,0.85); border: 1px solid var(--kyu-muted); border-radius: 12px; 
+      padding: 6px 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; 
+      justify-content: center; transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.15); flex-shrink: 0; text-decoration: none;
+    }
+    .draw-btn:active { transform: scale(0.95); }
+    .draw-btn .heart-icon { font-size: 1.2rem; margin-bottom: 2px; }
+    .draw-btn .btn-txt { font-size: 10px; font-weight: bold; white-space: nowrap; color: var(--kyu-dark); margin-top: 2px; }
+
+    .header-bottom { 
+      display: flex; gap: 8px; width: 100%; align-items: stretch; justify-content: space-between;
+    }
+    .top-stat-bar { 
+      flex: 0 0 36%; min-width: 0; font-size: 11px; font-weight: 600; color: var(--kyu-dark); 
+      background: rgba(255,255,255,0.6); padding: 8px 6px; border-radius: 12px; 
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+      margin: 0; box-sizing: border-box; line-height: 1.4; letter-spacing: 0.5px;
+    }
+    .notice-board { 
+      flex: 1; min-width: 0; padding: 8px 10px; background: rgba(255, 255, 255, 0.6); border-radius: 12px; 
+      font-size: 11px; color: var(--kyu-dark); font-weight: 600; 
+      border: 1px dashed rgba(13, 27, 42, 0.4); text-align: left; line-height: 1.4; 
+      margin: 0; box-sizing: border-box; word-break: break-word; display: flex; align-items: center;
+    }
+
+    /* 改用 margin 左右 auto 置中 */
     .app-container { width: 100%; max-width: 800px; margin: 0 auto; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 8px 32px rgba(0,0,0,0.25); padding: 12px 10px; box-sizing: border-box; }
     
     .tab-nav { display: flex; flex-wrap: nowrap; justify-content: flex-start; gap: 6px; background: rgba(255,255,255,0.25); border-radius: 15px; padding: 6px; margin-bottom: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .tab-nav::-webkit-scrollbar { display: none; }
-    .tab-btn { flex: 0 0 auto; padding: 8px 12px; background: transparent; border: none; border-radius: 12px; font-size: 0.9em; color: #1a1a1a; cursor: pointer; transition: 0.3s; font-weight: 600; white-space: nowrap; }
-    .tab-btn.active { background: #e3f2fd; color: var(--kyu-heart); font-weight: bold; box-shadow: 0 2px 8px rgba(0, 85, 164, 0.2); }
     
+    .tab-btn { flex: 0 0 auto; padding: 8px 12px; background: transparent; border: none; border-radius: 12px; font-size: 0.9em; color: #1a1a1a; cursor: pointer; transition: 0.3s; font-weight: 600; white-space: nowrap; }
+    
+    .tab-btn.active { background: #fae6e8; color: var(--kyu-heart); font-weight: bold; box-shadow: 0 2px 8px rgba(128, 0, 32, 0.2); }
+    
+    .tab-btn[onclick*="wish"] { color: var(--kyu-heart); }
+    .tab-btn[onclick*="wish"].active { background: #fae6e8; box-shadow: 0 2px 8px rgba(128, 0, 32, 0.2); color: var(--kyu-heart); }
+    
+    /* 擁有頁籤專屬顏色 */
+    .tab-btn[onclick*="owned"] { color: var(--kyu-muted); }
+    .tab-btn[onclick*="owned"].active { background: #e2eafc; box-shadow: 0 2px 8px rgba(119, 141, 169, 0.3); color: var(--kyu-dark); }
+
     .sub-nav-container { width: 100%; overflow-x: auto; white-space: nowrap; margin-bottom: 10px; scrollbar-width: none; }
     .sub-nav-container::-webkit-scrollbar { display: none; }
     .sub-nav { display: inline-flex; gap: 8px; padding: 2px 5px; }
     .sub-btn { padding: 8px 18px; background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; font-size: 0.85em; color: #1a1a1a; cursor: pointer; font-weight: 600; }
+    
     .sub-btn.active { background: var(--kyu-heart); color: #fff; border-color: var(--kyu-heart); }
     
     .album-header { font-family: 'Montserrat', sans-serif; font-size: 1.1em; font-weight: 700; text-transform: uppercase; color: var(--kyu-dark); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(13, 27, 42, 0.2); padding-bottom: 8px; letter-spacing: 2px; }
     .section-title { font-size: 1em; color: var(--kyu-dark); margin: 15px 0 10px 0; font-weight: bold; display: flex; align-items: center; gap: 6px; }
-    .wish-view .section-title { margin-top: 5px; }
+    
+    .wish-view .section-title, .owned-view .section-title { margin-top: 5px; }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; margin-bottom: 20px; align-items: start; }
     
@@ -137,80 +178,65 @@
     
     .wish-btn { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #aaa; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: 0.2s; }
     .wish-btn::after { content: '\2661\FE0E'; margin-top: 1px; }
-    .card.in-wishlist .wish-btn { color: #800020; text-shadow: 0 0 2px rgba(128,0,32,0.3); }
+    .card.in-wishlist .wish-btn { color: var(--kyu-heart); text-shadow: 0 0 2px rgba(128,0,32,0.3); }
     .card.in-wishlist .wish-btn::after { content: '\2665\FE0E'; }
     .wish-btn:active { transform: scale(1.2); }
 
     .card-name { font-size: 11px; margin-top: 8px; color: #222; line-height: 1.3; text-align: center; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .card-source { font-size: 9px; color: #666; margin-top: 5px; text-align: center; font-style: normal; display: none; line-height: 1.25; word-wrap: break-word; }
-    .wish-view .card-source { display: block; }
+    .wish-view .card-source, .owned-view .card-source { display: block; }
+
+    /* 針對 Owned 頁面一行放 5 張卡的專屬縮小設定 */
+    .owned-view .grid { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .owned-view .card { padding: 4px; border-radius: 8px; }
+    .owned-view .card-name { font-size: 9px; line-height: 1.1; margin-top: 4px; }
+    .owned-view .wish-btn { width: 16px; height: 16px; font-size: 10px; top: 2px; right: 2px; }
+    .owned-view .card-source { font-size: 8px; margin-top: 3px; }
+    .owned-view .card.owned::after { width: 16px; height: 16px; line-height: 16px; font-size: 10px; bottom: -3px; right: -3px; }
 
     .no-img-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(13, 27, 42, 0.05); color: var(--kyu-dark); font-size: 0.85em; font-weight: 600; text-align: center; padding: 10px; box-sizing: border-box; border: 1px dashed rgba(13, 27, 42, 0.2); line-height: 1.5; gap: 4px; }
     .empty-msg { text-align: center; color: #1a1a1a; padding: 40px; font-style: italic; font-weight: 600; }
     
-    /* 底部三欄式 x 每欄雙分類 進度條 */
-    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.8); padding: 10px 12px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.12); z-index: 999; padding-bottom: calc(10px + env(safe-area-inset-bottom)); pointer-events: none; }
+    /* 加入 pointer-events: none; 允許觸控和滑動手勢完全穿透蒐集列 */
+    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.8); padding: 10px 15px 15px 15px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); z-index: 999; padding-bottom: calc(15px + env(safe-area-inset-bottom)); pointer-events: none; }
+    .dual-stat-container { display: flex; flex-direction: column; gap: 8px; } 
     
-    .triple-stat-container {
-      display: flex;
-      justify-content: space-between;
-      gap: 6px;
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-    }
+    .stat-row { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+    .stat-label { font-size: 11px; font-weight: bold; color: var(--kyu-dark); white-space: nowrap; width: 85px; }
+    .stat-percent { font-size: 11px; font-weight: bold; color: var(--kyu-dark); width: 30px; text-align: right; }
     
-    /* 每個人物的微型面板 */
-    .char-group {
-      flex: 1;
-      background: rgba(255,255,255,0.6);
-      border: 1px solid rgba(255,255,255,0.9);
-      border-radius: 10px;
-      padding: 6px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
+    .staff-container { flex: 1; position: relative; height: 8px; background: rgba(13, 27, 42, 0.1); border-radius: 4px; border: 1px solid rgba(13, 27, 42, 0.15); box-sizing: border-box; }
+    .staff-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .fill-album { background: rgba(13, 27, 42, 0.6); }
+    .fill-card { background: rgba(128, 0, 32, 0.5); }
     
-    .char-title {
-      font-size: 11px;
-      font-weight: 800;
-      text-align: center;
-      color: var(--kyu-dark);
-      margin-bottom: 2px;
-    }
-    
-    .stat-row-mini {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 9px;
-      font-weight: 700;
-      color: #444;
-    }
-    
-    .stat-row-mini .emoji-icon { font-size: 10px; }
-    .stat-row-mini .fraction { font-size: 9px; letter-spacing: 0px; min-width: 20px; text-align: right; }
-    
-    .bar-bg {
-      flex: 1;
-      height: 4px;
-      background: rgba(13, 27, 42, 0.1);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    
-    .bar-fill {
-      height: 100%;
-      border-radius: 2px;
-      transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    .staff-icon { 
+      position: absolute; 
+      top: 50%; 
+      right: 0; 
+      transform: translate(50%, -50%) translateZ(0); 
+      -webkit-transform: translate(50%, -50%) translateZ(0);
+      font-size: 12px; 
+      line-height: 1; 
+      text-shadow: 1px 1px 2px rgba(255,255,255,0.8); 
+      z-index: 10; 
     }
 
-    /* 統一進度條顏色 */
-    .fill-album { background: #0055A4; } 
-    .fill-card { background: #FF2A2A; }  
-
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+    .modal-content { background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.7); width: 100%; max-width: 400px; max-height: 80vh; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; }
+    .modal-header { padding: 15px; background: rgba(255,255,255,0.6); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.6); font-weight: 700; color: var(--kyu-dark); }
+    .close-btn { background: none; border: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--kyu-dark); padding: 0 5px; }
+    .message-list { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; }
+    .msg-item { background: rgba(255,255,255,0.85); padding: 12px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .msg-info { font-size: 0.8em; color: #555; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(0,0,0,0.15); padding-bottom: 4px; }
+    .msg-name { font-weight: bold; color: var(--kyu-dark); }
+    .msg-text { font-size: 0.95em; color: #222; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; font-weight: 500;}
+    .msg-form { padding: 15px; background: rgba(255,255,255,0.7); border-top: 1px solid rgba(255,255,255,0.6); display: flex; flex-direction: column; gap: 10px; pointer-events: auto; /* 留言板內允許點擊 */ }
+    .msg-input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px; background: rgba(255,255,255,0.9); font-family: inherit; font-size: 0.9em; font-weight: 500;}
+    .msg-input:focus { outline: none; border-color: var(--kyu-dark); box-shadow: 0 0 0 2px rgba(13, 27, 42, 0.1); }
+    .msg-textarea { resize: none; height: 60px; }
+    .msg-submit { background: var(--kyu-dark); color: white; border: none; border-radius: 8px; padding: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.95em; letter-spacing: 1px;}
+    .msg-submit:disabled { background: #999; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -221,31 +247,27 @@
     <header>
       <div class="header-top">
         <div class="title-group">
-          <h1 class="main-title"><span class="kyu-txt">D&E</span><span class="album-txt">Album & Card</span></h1>
+          <h1 class="main-title"><span class="kyu-txt">Kyuhyun</span><span class="album-txt">Album & Card</span></h1>
           <div class="sub-credits">Threads @sherrykao1314</div>
         </div>
-        
-        <div class="total-stat-box">
-          <span class="stat-title">圖鑑總收錄</span>
-          <span class="stat-num" id="totalCountText">載入中...</span>
-        </div>
+        <button class="draw-btn guest-btn" onclick="openModal()">
+          <span class="heart-icon">🍷</span>
+          <span class="btn-txt" style="color: var(--kyu-dark);">公開留言板</span>
+        </button>
       </div>
       
-      <div class="segmented-control">
-        <button class="seg-btn active" id="who-all" onclick="setWhoFilter('all')">ALL</button>
-        <button class="seg-btn" id="who-donghae" onclick="setWhoFilter('東海')">東海</button>
-        <button class="seg-btn" id="who-eunhyuk" onclick="setWhoFilter('銀赫')">銀赫</button>
-        <button class="seg-btn" id="who-couple" onclick="setWhoFilter('雙人')">雙人</button>
+      <div class="header-bottom">
+        <div class="top-stat-bar" id="topStatCounter">資料庫<br>載入中...</div>
+        <div id="noticeBoard" class="notice-board" style="display: none;"></div>
       </div>
-      
-      <div id="noticeBoard" class="notice-board"></div>
     </header>
 
     <div class="app-container">
       <nav class="tab-nav">
         <button class="tab-btn active" onclick="switchTab('wish', event)">❤ 想要</button>
-        <button class="tab-btn" onclick="switchTab('solo', event)">Solo</button>
-        <button class="tab-btn" onclick="switchTab('dne', event)">D&E</button>
+        <button class="tab-btn" onclick="switchTab('owned', event)">✓ 擁有</button>
+        <button class="tab-btn" onclick="switchTab('korea', event)">KOREA</button>
+        <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
         <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
         <button class="tab-btn" onclick="switchTab('other_album', event)">其他專</button>
         <button class="tab-btn" onclick="switchTab('concert', event)">演唱會</button> 
@@ -258,143 +280,93 @@
     </div>
   </div>
 
-  <!-- 底部三欄式 x 雙分類 進度條 -->
   <div class="bottom-bar">
-    <div class="triple-stat-container">
-      
-      <!-- 海 -->
-      <div class="char-group">
-        <div class="char-title">🔵 海</div>
-        <div class="stat-row-mini">
-          <span class="emoji-icon">💿</span>
-          <div class="bar-bg"><div class="bar-fill fill-album" id="dhAlbumFill" style="width:0%"></div></div>
-          <span class="fraction" id="dhAlbumText">0/0</span>
+    <div class="dual-stat-container">
+      <div class="stat-row">
+        <div class="stat-label" id="albumLabel">💿 專輯 0/0</div>
+        <div class="staff-container">
+          <div class="staff-fill fill-album" id="albumFill">
+            <span class="staff-icon">💿</span>
+          </div>
         </div>
-        <div class="stat-row-mini">
-          <span class="emoji-icon">🎵</span>
-          <div class="bar-bg"><div class="bar-fill fill-card" id="dhCardFill" style="width:0%"></div></div>
-          <span class="fraction" id="dhCardText">0/0</span>
-        </div>
+        <div class="stat-percent" id="albumPercent">0%</div>
       </div>
-      
-      <!-- 赫 -->
-      <div class="char-group">
-        <div class="char-title">🟡 赫</div>
-        <div class="stat-row-mini">
-          <span class="emoji-icon">💿</span>
-          <div class="bar-bg"><div class="bar-fill fill-album" id="ehAlbumFill" style="width:0%"></div></div>
-          <span class="fraction" id="ehAlbumText">0/0</span>
+      <div class="stat-row">
+        <div class="stat-label" id="cardLabel">🎵 小卡 0/0</div>
+        <div class="staff-container">
+          <div class="staff-fill fill-card" id="cardFill">
+            <span class="staff-icon">🎵</span>
+          </div>
         </div>
-        <div class="stat-row-mini">
-          <span class="emoji-icon">🎵</span>
-          <div class="bar-bg"><div class="bar-fill fill-card" id="ehCardFill" style="width:0%"></div></div>
-          <span class="fraction" id="ehCardText">0/0</span>
-        </div>
+        <div class="stat-percent" id="cardPercent">0%</div>
       </div>
-      
-      <!-- 雙人 -->
-      <div class="char-group">
-        <div class="char-title">🟢 雙人</div>
-        <div class="stat-row-mini">
-          <span class="emoji-icon">💿</span>
-          <div class="bar-bg"><div class="bar-fill fill-album" id="deAlbumFill" style="width:0%"></div></div>
-          <span class="fraction" id="deAlbumText">0/0</span>
-        </div>
-        <div class="stat-row-mini">
-          <span class="emoji-icon">🎵</span>
-          <div class="bar-bg"><div class="bar-fill fill-card" id="deCardFill" style="width:0%"></div></div>
-          <span class="fraction" id="deCardText">0/0</span>
-        </div>
-      </div>
+    </div>
+  </div>
 
+  <div class="modal-overlay" id="guestbookModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>💬 交流留言板</span>
+        <button class="close-btn" onclick="closeModal()">×</button>
+      </div>
+      <div class="message-list" id="messageList">
+        <div style="text-align:center; color:#666; padding:20px; font-size:0.9em;">載入留言中...</div>
+      </div>
+      <div class="msg-form">
+        <input type="text" id="msgName" class="msg-input" placeholder="你的暱稱 (選填，預設匿名)" maxlength="20">
+        <textarea id="msgContent" class="msg-input msg-textarea" placeholder="跟圭比特們說點什麼吧..." maxlength="200"></textarea>
+        <button class="msg-submit" id="msgSubmitBtn" onclick="sendMessage()">送出留言</button>
+      </div>
     </div>
   </div>
 
   <script>
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycby1K90k8xPausYiQSesrLYWw3Ozm2WPywTR0nshdji6XuTAInGRznZXGtP4lxLkfbHi/exec"; 
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxk3_NhjBlFeXmsMD9iWc8cXhqOrF76G7ITMIBpQ6RtT8de8GWpWe5FNjaLz3S2grDLOQ/exec"; 
 
-    const STORAGE_KEY = 'dne_github_pc_list';
-    const WISH_KEY = 'dne_wish_list'; 
+    const STORAGE_KEY = 'kyuhyun_github_pc_list';
+    const WISH_KEY = 'kyuhyun_wish_list'; 
     
     let myCollection = [];
     let myWishlist = [];
     let itemDictionary = {}; 
     let cardLookup = {}; 
+    let globalMessages = []; 
     
     try {
       myCollection = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
       myWishlist = JSON.parse(localStorage.getItem(WISH_KEY)) || [];
     } catch(e) {}
 
-    let currentWhoFilter = 'all';
-
-    function setWhoFilter(who) {
-      currentWhoFilter = who;
-      
-      document.querySelectorAll('.segmented-control .seg-btn').forEach(btn => btn.classList.remove('active'));
-      if(who === 'all') document.getElementById('who-all').classList.add('active');
-      if(who === '東海') document.getElementById('who-donghae').classList.add('active');
-      if(who === '銀赫') document.getElementById('who-eunhyuk').classList.add('active');
-      if(who === '雙人') document.getElementById('who-couple').classList.add('active');
-      
-      if(currentTab === 'wish') {
-        document.getElementById('displayArea').innerHTML = '';
-        renderWishlist();
-      } else {
-        const activeSubBtn = document.querySelector('.sub-nav .sub-btn.active');
-        if(activeSubBtn) activeSubBtn.click();
-      }
-    }
-
-    // 更新計數器 (6條微型進度)
     function updateCounter() {
-      let totals = { dh: { alb: 0, crd: 0 }, eh: { alb: 0, crd: 0 }, de: { alb: 0, crd: 0 } };
-      let owneds = { dh: { alb: 0, crd: 0 }, eh: { alb: 0, crd: 0 }, de: { alb: 0, crd: 0 } };
-      
-      let overallAlbums = 0, overallCards = 0;
-
-      Object.keys(itemDictionary).forEach(id => {
-        let isAlbum = itemDictionary[id] === '專輯';
-        let isOwned = myCollection.includes(id);
-        let item = cardLookup[id];
-        
-        if (!item) return;
-
-        if (isAlbum) overallAlbums++; else overallCards++;
-        
-        let targetGrp = null;
-        if (item.who === '東海') targetGrp = 'dh';
-        else if (item.who === '銀赫') targetGrp = 'eh';
-        else if (item.who === '雙人') targetGrp = 'de';
-
-        if (targetGrp) {
-          if (isAlbum) {
-            totals[targetGrp].alb++;
-            if (isOwned) owneds[targetGrp].alb++;
-          } else {
-            totals[targetGrp].crd++;
-            if (isOwned) owneds[targetGrp].crd++;
-          }
-        }
+      let totalAlbumsCount = 0;
+      let totalCardsCount = 0;
+      Object.values(itemDictionary).forEach(type => {
+        if (type === '專輯') totalAlbumsCount++;
+        else totalCardsCount++; 
       });
 
-      document.getElementById('totalCountText').innerHTML = `${overallAlbums}專 / ${overallCards}卡`;
+      document.getElementById('topStatCounter').innerHTML = `圖鑑總收錄<br>${totalAlbumsCount} 張專輯<br>${totalCardsCount} 張小卡`;
 
-      const renderBar = (grp, type) => {
-        let tot = totals[grp][type];
-        let own = owneds[grp][type];
-        let pct = tot === 0 ? 0 : Math.round((own / tot) * 100);
-        let NameKey = type === 'alb' ? 'Album' : 'Card';
-        document.getElementById(`${grp}${NameKey}Text`).innerText = `${own}/${tot}`;
-        document.getElementById(`${grp}${NameKey}Fill`).style.width = `${pct}%`;
-      };
+      let ownedAlbums = 0;
+      let ownedCards = 0;
+      myCollection.forEach(id => {
+        if (itemDictionary[id] === '專輯') ownedAlbums++;
+        else if (itemDictionary[id]) ownedCards++;
+      });
+      
+      const albumPercent = totalAlbumsCount === 0 ? 0 : Math.round((ownedAlbums / totalAlbumsCount) * 100);
+      const cardPercent = totalCardsCount === 0 ? 0 : Math.round((ownedCards / totalCardsCount) * 100);
 
-      renderBar('dh', 'alb'); renderBar('dh', 'crd');
-      renderBar('eh', 'alb'); renderBar('eh', 'crd');
-      renderBar('de', 'alb'); renderBar('de', 'crd');
+      document.getElementById('albumLabel').innerText = `💿 專輯 ${ownedAlbums}/${totalAlbumsCount}`;
+      document.getElementById('albumPercent').innerText = `${albumPercent}%`;
+      document.getElementById('albumFill').style.width = `${albumPercent}%`;
+
+      document.getElementById('cardLabel').innerText = `🎵 小卡 ${ownedCards}/${totalCardsCount}`;
+      document.getElementById('cardPercent').innerText = `${cardPercent}%`;
+      document.getElementById('cardFill').style.width = `${cardPercent}%`;
     }
 
-    let allData = { solo: {}, dne: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
+    let allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
     let currentTab = 'wish'; 
 
     fetch(GAS_API_URL + "?t=" + new Date().getTime())
@@ -403,36 +375,126 @@
         if (result.message && result.message.toString().trim() !== "") {
           const noticeEl = document.getElementById('noticeBoard');
           noticeEl.innerHTML = `📢 ${result.message.toString().replace(/\n/g, '<br>')}`;
-          noticeEl.style.display = 'flex';
+          noticeEl.style.display = 'inline-block';
         }
+        
+        if (result.guestMessages) {
+          globalMessages = result.guestMessages;
+        }
+
         processData(result.cards);
       })
       .catch(error => {
         document.getElementById('displayArea').innerHTML = '<div class="empty-msg">讀取資料失敗，請確認你的 GAS 網址是否正確。</div>';
       });
 
+    function openModal() {
+      document.getElementById('guestbookModal').style.display = 'flex';
+      renderMessages();
+    }
+
+    function closeModal() {
+      document.getElementById('guestbookModal').style.display = 'none';
+    }
+
+    function renderMessages() {
+      const listEl = document.getElementById('messageList');
+      if (globalMessages.length === 0) {
+        listEl.innerHTML = '<div style="text-align:center; color:#666; padding:20px; font-size:0.9em;">還沒有人留言喔，來搶頭香吧！</div>';
+        return;
+      }
+      
+      let html = '';
+      globalMessages.forEach(msg => {
+        html += `
+          <div class="msg-item">
+            <div class="msg-info">
+              <span class="msg-name">${escapeHTML(msg.name)}</span>
+              <span>${msg.time}</span>
+            </div>
+            <div class="msg-text">${escapeHTML(msg.content)}</div>
+          </div>
+        `;
+      });
+      listEl.innerHTML = html;
+    }
+
+    function sendMessage() {
+      const nameInput = document.getElementById('msgName').value.trim();
+      const contentInput = document.getElementById('msgContent').value.trim();
+      
+      if (!contentInput) {
+        alert('請輸入留言內容喔！');
+        return;
+      }
+
+      const btn = document.getElementById('msgSubmitBtn');
+      btn.disabled = true;
+      btn.innerText = '傳送中...';
+
+      const sendData = {
+        name: nameInput || "匿名KYUpiter",
+        content: contentInput
+      };
+
+      fetch(GAS_API_URL, {
+        method: 'POST',
+        body: JSON.stringify(sendData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          const now = new Date();
+          const timeStr = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}::${String(now.getMinutes()).padStart(2,'0')}`;
+          
+          globalMessages.unshift({
+            name: sendData.name,
+            content: sendData.content,
+            time: timeStr
+          });
+          
+          document.getElementById('msgContent').value = ''; 
+          renderMessages();
+        } else {
+          alert('傳送失敗，請稍後再試！');
+        }
+      })
+      .catch(err => {
+        alert('網路錯誤，傳送失敗！');
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerText = '送出留言';
+      });
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, tag => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag]));
+    }
+
     function processData(cards) {
-      allData = { solo: {}, dne: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
+      allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
       cardLookup = {};
 
       cards.forEach(card => {
-        const [id, name, imgUrl, countryRaw, release, albumHeader, type, who] = card;
+        const [id, name, imgUrl, countryRaw, release, albumHeader, type] = card;
         if (!id) return;
         
         const itemId = id.toString();
         const itemType = type ? type.toString().trim() : ''; 
         itemDictionary[itemId] = itemType === '專輯' ? '專輯' : '小卡'; 
         
-        const whoTrimmed = who ? who.toString().trim() : '';
-        const item = { id: itemId, name, imgUrl, type: itemType, release: release || '', header: albumHeader || '', tab: '', who: whoTrimmed };
+        const item = { id: itemId, name, imgUrl, type: itemType, release: release || '', header: albumHeader || '', tab: '' };
         
         if (countryRaw && release) {
           let rawCountryStr = countryRaw.toString().trim();
           let c = rawCountryStr.toLowerCase();
           let tabDisplayName = rawCountryStr;
 
-          if (c === 'solo') { c = 'solo'; tabDisplayName = 'Solo'; }
-          else if (c === 'd&e' || c === 'dne') { c = 'dne'; tabDisplayName = 'D&E'; }
+          if (c === 'korea' || c === '韓專') { c = 'korea'; tabDisplayName = 'KOREA'; }
+          else if (c === 'japan' || c === '日專') { c = 'japan'; tabDisplayName = 'JAPAN'; }
           else if (c === '大隊') { c = 'group'; tabDisplayName = '大隊專'; }
           else if (c === '其他專') { c = 'other_album'; tabDisplayName = '其他專'; }
           else if (c === '演唱會') { c = 'concert'; tabDisplayName = '演唱會'; } 
@@ -482,7 +544,9 @@
       const subNavContainer = document.getElementById('subNavContainer');
       const subNav = document.getElementById('subNav');
       const area = document.getElementById('displayArea');
-      subNav.innerHTML = ''; area.innerHTML = ''; area.classList.remove('wish-view');
+      subNav.innerHTML = '';
+      area.innerHTML = '';
+      area.classList.remove('wish-view', 'owned-view');
 
       if (tabId === 'wish') {
         area.classList.add('wish-view');
@@ -490,11 +554,19 @@
         renderWishlist();
         return;
       }
+      if (tabId === 'owned') {
+        area.classList.add('owned-view');
+        subNavContainer.style.display = 'none'; 
+        renderOwned();
+        return;
+      }
 
       subNavContainer.style.display = 'block'; 
       let releases = Object.keys(allData[tabId] || {});
       
-      if (tabId === 'calendar') releases.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
+      if (tabId === 'calendar') {
+        releases.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
+      }
 
       if (releases.length === 0) {
         area.innerHTML = '<div class="empty-msg">此分類尚無資料</div>';
@@ -516,28 +588,31 @@
         area.innerHTML = '<div class="empty-msg">清單空空的，快去點擊愛心標記想要的卡片吧！</div>';
         return;
       }
-      
-      let filteredWishlist = myWishlist.filter(id => {
-        if (!cardLookup[id]) return false;
-        if (currentWhoFilter === 'all') return true;
-        return cardLookup[id].who === currentWhoFilter;
-      });
-
-      if (filteredWishlist.length === 0) {
-        area.innerHTML = '<div class="empty-msg">目前人物篩選下，沒有你想收藏的卡片喔！</div>';
-        return;
-      }
-
-      area.insertAdjacentHTML('beforeend', `<div class="section-title">❤ 我的想要清單 (${filteredWishlist.length})</div>`);
+      area.insertAdjacentHTML('beforeend', `<div class="section-title">❤ 我的想要清單 (${myWishlist.length})</div>`);
       const g = document.createElement('div'); g.className = 'grid';
-      filteredWishlist.forEach(id => { g.appendChild(createCard(cardLookup[id])); });
+      myWishlist.forEach(id => {
+        if (cardLookup[id]) g.appendChild(createCard(cardLookup[id]));
+      });
       area.appendChild(g);
     }
 
-    // 已經加入修正邏輯的 switchRelease (避免留下空標題)
+    function renderOwned() {
+      const area = document.getElementById('displayArea');
+      if (myCollection.length === 0) {
+        area.innerHTML = '<div class="empty-msg">還沒有擁有任何卡片喔，快去清單點擊卡片標記吧！</div>';
+        return;
+      }
+      area.insertAdjacentHTML('beforeend', `<div class="section-title">✓ 我的擁有清單 (${myCollection.length})</div>`);
+      const g = document.createElement('div'); g.className = 'grid';
+      myCollection.forEach(id => {
+        if (cardLookup[id]) g.appendChild(createCard(cardLookup[id]));
+      });
+      area.appendChild(g);
+    }
+
     function switchRelease(release, event, country) {
       if(event) {
-        document.querySelectorAll('.sub-nav .sub-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
         event.currentTarget.classList.add('active');
       }
       const area = document.getElementById('displayArea');
@@ -545,67 +620,33 @@
       const releaseData = allData[country || currentTab][release];
       if(!releaseData) return;
       
-      let hasAnyContentInRelease = false;
-      
       Object.keys(releaseData).forEach(header => {
         const data = releaseData[header];
-        
-        const filterList = (list) => {
-          if (!list) return [];
-          if (currentWhoFilter === 'all') return list;
-          return list.filter(item => item.who === currentWhoFilter);
-        };
-
-        const f_uncat = filterList(data.uncategorized);
-        const f_album = filterList(data.albums);
-        const f_photo = filterList(data.photocards);
-        const f_spec = filterList(data.specialCards);
-        const f_fsign = filterList(data.fansignCards);
-        const f_won = filterList(data.wonFansignCards);
-        const f_lucky = filterList(data.luckyCards);
-        const f_entry = filterList(data.entryCards);
-        const f_rand = filterList(data.randomCards);
-        const f_bonus = filterList(data.bonusCards);
-        const f_other = filterList(data.otherCards);
-
-        const totalItemsInHeader = f_uncat.length + f_album.length + f_photo.length + f_spec.length + f_fsign.length + f_won.length + f_lucky.length + f_entry.length + f_rand.length + f_bonus.length + f_other.length;
-
-        if (totalItemsInHeader === 0) return;
-
-        hasAnyContentInRelease = true;
-
         if (header !== "") {
           const headerDiv = document.createElement('div');
-          headerDiv.className = 'album-header'; 
-          headerDiv.innerText = header;
+          headerDiv.className = 'album-header'; headerDiv.innerText = header;
           area.appendChild(headerDiv);
         }
-        
         const renderGrid = (title, list) => {
-          if (list.length > 0) {
+          if (list && list.length > 0) {
             if (title) area.insertAdjacentHTML('beforeend', `<div class="section-title">${title}</div>`);
             const g = document.createElement('div'); g.className = 'grid';
             list.forEach(item => g.appendChild(createCard(item)));
             area.appendChild(g);
           }
         };
-        
-        renderGrid(null, f_uncat);
-        renderGrid("💿 專輯版本", f_album);
-        renderGrid("🃏 專輯小卡", f_photo);
-        renderGrid("🎁 特典小卡", f_spec);
-        renderGrid("✍️ 簽售小卡", f_fsign);
-        renderGrid("🎉 中簽卡", f_won);
-        renderGrid("🍀 幸運卡", f_lucky);
-        renderGrid("🎟️ 入場卡", f_entry); 
-        renderGrid("🎲 隨機卡", f_rand);
-        renderGrid("🛍️ 滿額卡", f_bonus);
-        renderGrid("📌 其他小卡", f_other);
+        renderGrid(null, data.uncategorized);
+        renderGrid("💿 專輯版本", data.albums);
+        renderGrid("🃏 專輯小卡", data.photocards);
+        renderGrid("🎁 特典小卡", data.specialCards);
+        renderGrid("✍️ 簽售小卡", data.fansignCards);
+        renderGrid("🎉 中簽卡", data.wonFansignCards);
+        renderGrid("🍀 幸運卡", data.luckyCards);
+        renderGrid("🎟️ 入場卡", data.entryCards); 
+        renderGrid("🎲 隨機卡", data.randomCards);
+        renderGrid("🛍️ 滿額卡", data.bonusCards);
+        renderGrid("📌 其他小卡", data.otherCards);
       });
-
-      if (!hasAnyContentInRelease) {
-        area.innerHTML = `<div class="empty-msg">這個分類下目前沒有「${currentWhoFilter}」的資料喔！</div>`;
-      }
     }
 
     function createCard(item) {
@@ -641,7 +682,7 @@
           div.classList.add('in-wishlist');
         }
         localStorage.setItem(WISH_KEY, JSON.stringify(myWishlist));
-        if (currentTab === 'wish') renderWishlist(); 
+        if (currentTab === 'wish') switchTab('wish'); 
       });
 
       div.addEventListener('click', () => {
@@ -653,6 +694,8 @@
         }
         localStorage.setItem(STORAGE_KEY, JSON.stringify(myCollection));
         updateCounter();
+        // 如果目前在擁有頁面，取消標記時即時重整該頁面
+        if (currentTab === 'owned') switchTab('owned'); 
       });
 
       return div;
