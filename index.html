@@ -148,6 +148,10 @@
     
     .tab-btn[onclick*="wish"] { color: var(--kyu-heart); }
     .tab-btn[onclick*="wish"].active { background: #fae6e8; box-shadow: 0 2px 8px rgba(128, 0, 32, 0.2); color: var(--kyu-heart); }
+    
+    /* 擁有頁籤專屬顏色 */
+    .tab-btn[onclick*="owned"] { color: var(--kyu-muted); }
+    .tab-btn[onclick*="owned"].active { background: #e2eafc; box-shadow: 0 2px 8px rgba(119, 141, 169, 0.3); color: var(--kyu-dark); }
 
     .sub-nav-container { width: 100%; overflow-x: auto; white-space: nowrap; margin-bottom: 10px; scrollbar-width: none; }
     .sub-nav-container::-webkit-scrollbar { display: none; }
@@ -159,7 +163,7 @@
     .album-header { font-family: 'Montserrat', sans-serif; font-size: 1.1em; font-weight: 700; text-transform: uppercase; color: var(--kyu-dark); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(13, 27, 42, 0.2); padding-bottom: 8px; letter-spacing: 2px; }
     .section-title { font-size: 1em; color: var(--kyu-dark); margin: 15px 0 10px 0; font-weight: bold; display: flex; align-items: center; gap: 6px; }
     
-    .wish-view .section-title { margin-top: 5px; }
+    .wish-view .section-title, .owned-view .section-title { margin-top: 5px; }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; margin-bottom: 20px; align-items: start; }
     
@@ -180,7 +184,15 @@
 
     .card-name { font-size: 11px; margin-top: 8px; color: #222; line-height: 1.3; text-align: center; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .card-source { font-size: 9px; color: #666; margin-top: 5px; text-align: center; font-style: normal; display: none; line-height: 1.25; word-wrap: break-word; }
-    .wish-view .card-source { display: block; }
+    .wish-view .card-source, .owned-view .card-source { display: block; }
+
+    /* 針對 Owned 頁面一行放 5 張卡的專屬縮小設定 */
+    .owned-view .grid { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .owned-view .card { padding: 4px; border-radius: 8px; }
+    .owned-view .card-name { font-size: 9px; line-height: 1.1; margin-top: 4px; }
+    .owned-view .wish-btn { width: 16px; height: 16px; font-size: 10px; top: 2px; right: 2px; }
+    .owned-view .card-source { font-size: 8px; margin-top: 3px; }
+    .owned-view .card.owned::after { width: 16px; height: 16px; line-height: 16px; font-size: 10px; bottom: -3px; right: -3px; }
 
     .no-img-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(13, 27, 42, 0.05); color: var(--kyu-dark); font-size: 0.85em; font-weight: 600; text-align: center; padding: 10px; box-sizing: border-box; border: 1px dashed rgba(13, 27, 42, 0.2); line-height: 1.5; gap: 4px; }
     .empty-msg { text-align: center; color: #1a1a1a; padding: 40px; font-style: italic; font-weight: 600; }
@@ -253,6 +265,7 @@
     <div class="app-container">
       <nav class="tab-nav">
         <button class="tab-btn active" onclick="switchTab('wish', event)">❤ 想要</button>
+        <button class="tab-btn" onclick="switchTab('owned', event)">✓ 擁有</button>
         <button class="tab-btn" onclick="switchTab('korea', event)">KOREA</button>
         <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
         <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
@@ -533,12 +546,18 @@
       const area = document.getElementById('displayArea');
       subNav.innerHTML = '';
       area.innerHTML = '';
-      area.classList.remove('wish-view');
+      area.classList.remove('wish-view', 'owned-view');
 
       if (tabId === 'wish') {
         area.classList.add('wish-view');
         subNavContainer.style.display = 'none'; 
         renderWishlist();
+        return;
+      }
+      if (tabId === 'owned') {
+        area.classList.add('owned-view');
+        subNavContainer.style.display = 'none'; 
+        renderOwned();
         return;
       }
 
@@ -572,6 +591,20 @@
       area.insertAdjacentHTML('beforeend', `<div class="section-title">❤ 我的想要清單 (${myWishlist.length})</div>`);
       const g = document.createElement('div'); g.className = 'grid';
       myWishlist.forEach(id => {
+        if (cardLookup[id]) g.appendChild(createCard(cardLookup[id]));
+      });
+      area.appendChild(g);
+    }
+
+    function renderOwned() {
+      const area = document.getElementById('displayArea');
+      if (myCollection.length === 0) {
+        area.innerHTML = '<div class="empty-msg">還沒有擁有任何卡片喔，快去清單點擊卡片標記吧！</div>';
+        return;
+      }
+      area.insertAdjacentHTML('beforeend', `<div class="section-title">✓ 我的擁有清單 (${myCollection.length})</div>`);
+      const g = document.createElement('div'); g.className = 'grid';
+      myCollection.forEach(id => {
         if (cardLookup[id]) g.appendChild(createCard(cardLookup[id]));
       });
       area.appendChild(g);
@@ -661,6 +694,8 @@
         }
         localStorage.setItem(STORAGE_KEY, JSON.stringify(myCollection));
         updateCounter();
+        // 如果目前在擁有頁面，取消標記時即時重整該頁面
+        if (currentTab === 'owned') switchTab('owned'); 
       });
 
       return div;
