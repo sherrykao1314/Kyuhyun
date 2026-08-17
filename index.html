@@ -12,6 +12,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   
   <title>Kyuhyun Album & Card</title>
+
+  <!-- 🚨 強制清除主畫面捷徑快取的終極機制 -->
+  <script>
+    (function() {
+      // 只要更改這個版本號碼，手機就會被強制重新下載最新網頁
+      const LATEST_VERSION = "move_notice_kyu_v1"; 
+      
+      const currentVersion = localStorage.getItem("app_version");
+      if (currentVersion !== LATEST_VERSION) {
+        localStorage.setItem("app_version", LATEST_VERSION);
+        // 在網址後面加上時間戳記，強制手機重新下載
+        const newUrl = window.location.origin + window.location.pathname + "?t=" + new Date().getTime();
+        window.location.replace(newUrl);
+      }
+    })();
+  </script>
   
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
@@ -47,6 +63,41 @@
       -webkit-overflow-scrolling: touch; 
       padding: 5px 15px 140px 15px; 
       box-sizing: border-box; 
+    }
+
+    /* 🚨 搬家公告懸浮窗樣式 */
+    .move-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 10000; display: flex; align-items: center; justify-content: center;
+      padding: 20px; box-sizing: border-box;
+    }
+    .move-modal {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px; padding: 25px 20px;
+      width: 100%; max-width: 400px; text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      position: relative; animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    
+    .move-title { color: #d32f2f; font-size: 1.4rem; font-weight: 900; margin: 0 0 15px 0; letter-spacing: 1px; }
+    .move-title span { font-size: 1.6rem; vertical-align: middle; }
+    
+    .move-content { color: var(--kyu-dark); font-size: 0.95rem; line-height: 1.6; font-weight: 600; text-align: left; margin-bottom: 20px; }
+    .move-highlight { background: #ffebee; color: #c62828; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    
+    .move-btn {
+      display: inline-block; background: var(--kyu-dark); color: white;
+      text-decoration: none; font-weight: bold; font-size: 1.1rem;
+      padding: 14px 0; width: 100%; border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(13, 27, 42, 0.3); transition: 0.3s;
+      margin-bottom: 12px;
+    }
+    .move-btn:active { transform: scale(0.96); }
+    .move-close {
+      background: none; border: none; color: #888; font-size: 0.9rem;
+      text-decoration: underline; cursor: pointer; padding: 5px;
     }
     
     header { 
@@ -240,6 +291,28 @@
   </style>
 </head>
 <body>
+
+  <!-- 🚨 搬家公告懸浮窗 (排版優化版 - 圭賢專屬配色) -->
+  <div class="move-overlay" id="moveModal">
+    <div class="move-modal">
+      <div class="move-title"><span>⚠️</span> 重要公告</div>
+      <div class="move-content">
+        本圖鑑網頁即日起 <span class="move-highlight">停止更新</span>，<br>
+        並將於 <b>9月1日</b> <span style="white-space: nowrap;">正式關閉。</span><br><br>
+        
+        為了提供更穩定、跨裝置同步的體驗，系統已全面升級！<br>
+        請移駕至<b>「新版圖鑑中心」</b><span style="white-space: nowrap;">申請專屬帳號密碼。</span><br><br>
+        
+        <i style="color: #555; font-size: 0.9em; display: block; text-align: center;">( 💡 D&E 圖鑑已開放搶先申請，<br><span style="white-space: nowrap;">後續上線即可立即使用！ )</span></i><br>
+        
+        <div style="color: #c62828; font-size: 0.85rem; background: #fff0f2; padding: 10px; border-radius: 8px; line-height: 1.6; border: 1px solid #ffcdd2; margin-top: 15px;">
+          <b>⚠️ 注意：</b>新系統上線後，原先儲存在此舊網頁的打勾紀錄<span style="white-space: nowrap;">將無法直接連通</span>，可能會遺失，<span style="white-space: nowrap;">敬請見諒！</span>
+        </div>
+      </div>
+      <a href="https://sherrykao1314.github.io/CardIndex/" class="move-btn">前往新版圖鑑入口 🚀</a>
+      <button class="move-close" onclick="document.getElementById('moveModal').style.display='none'">我知道了，暫時關閉</button>
+    </div>
+  </div>
 
   <div class="bg-layer" id="bgLayer"></div>
 
